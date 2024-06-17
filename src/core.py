@@ -1,6 +1,7 @@
 from langchain_openai import OpenAI, ChatOpenAI
 from langchain_core.prompts import PromptTemplate
 from langchain_community.document_loaders import WebBaseLoader
+from langchain.chains.summarize import load_summarize_chain
 from langchain.chains.combine_documents.stuff import StuffDocumentsChain
 from langchain.chains.llm import LLMChain
 from dotenv import load_dotenv, find_dotenv
@@ -55,7 +56,7 @@ EXTRACT_TECHNICAL_DETAILS_PROMPT = PromptTemplate.from_template(
 def get_summary(input: RequestData) -> SummaryResponse:
     loader = WebBaseLoader(input.page_url)
     docs = loader.load()
-    llm_chain = LLMChain(llm=llm, prompt=SUMMARY_TEMPLATE)
+    llm_chain = LLMChain(llm=chat_llm, prompt=SUMMARY_TEMPLATE)
     stuff_chain = StuffDocumentsChain(llm_chain=llm_chain, document_variable_name="input_text")
     result = stuff_chain.invoke(docs)
     return {"page_url": input.page_url,
