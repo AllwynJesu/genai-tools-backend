@@ -22,3 +22,8 @@ class ChatWithAIResponse(BaseModel):
     action: Actions = Actions.CHAT_WITH_AI
     chat_message: str = Field(frozen=True, description="The user's chat message")
     response: str = Field(frozen=True, description="The response from the AI")
+
+class ExtractImportantDetailsResponse(BaseModel):
+    action: Actions = Actions.EXTRACT_IMPORTANT_DETAILS
+    page_url: str = Field(frozen=True, description="The URL of the page")
+    tech_details: str = Field(frozen=True, description="The summary of the page")
